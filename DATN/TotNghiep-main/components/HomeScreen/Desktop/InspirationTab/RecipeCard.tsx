@@ -35,7 +35,7 @@ const RecipeCard = ({
             {/* IMAGE BLOCK */}
             <div className="relative w-full h-[110px] rounded-t-lg overflow-hidden bg-black">
                 <Image unoptimized
-                    src={image}
+                    src={image && typeof image === 'string' && image.trim() !== '' && !image.includes('bit.ly') ? image : '/assets/images/sample-food3.jpg'}
                     alt={name}
                     fill
                     className="object-cover"

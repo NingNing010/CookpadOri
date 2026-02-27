@@ -112,7 +112,7 @@ const FoodChatbot: FC = () => {
 
             {/* Content */}
             <div className="flex-1  p-4 space-y-4">
-                {preview && (
+                {preview && typeof preview === 'string' && preview.trim() !== '' && (
                     <div className="flex justify-end">
                         <div className="bg-white rounded-xl p-2 shadow max-w-[220px]">
                             <Image
@@ -190,7 +190,7 @@ const FoodChatbot: FC = () => {
                                     className="bg-white rounded-xl shadow overflow-hidden hover:scale-[1.02] transition"
                                 >
                                     <img
-                                        src={food.imageUrl}
+                                        src={food.imageUrl && food.imageUrl.trim() !== '' && !food.imageUrl.includes('bit.ly') ? food.imageUrl : '/assets/images/sample-food3.jpg'}
                                         alt={food.title}
                                         className="w-full h-[120px] object-cover"
                                         loading="lazy"

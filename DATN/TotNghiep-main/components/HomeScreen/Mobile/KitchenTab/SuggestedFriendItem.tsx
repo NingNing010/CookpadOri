@@ -67,7 +67,7 @@ const SuggestedFriendItem = ({ item }: SuggestedFriendItemProps) => {
       <div className="relative w-14 h-14 rounded-full overflow-hidden shrink-0">
         <Image
           unoptimized
-          src={item.avatarUrl}
+          src={item.avatarUrl && item.avatarUrl.trim() !== '' && !item.avatarUrl.includes('bit.ly') ? item.avatarUrl : '/assets/images/sample-avatar.png'}
           alt={item.name}
           fill
           className="object-cover"

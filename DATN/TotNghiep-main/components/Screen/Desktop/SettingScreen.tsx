@@ -121,7 +121,7 @@ const RecipesGrid = () => {
               <div className="relative w-full h-48">
                 <Image
                   unoptimized
-                  src={recipe.imageUrl}
+                  src={recipe.imageUrl && recipe.imageUrl.trim() !== '' && !recipe.imageUrl.includes('bit.ly') ? recipe.imageUrl : '/assets/images/sample-food3.jpg'}
                   alt={recipe.title}
                   fill
                   className="object-cover"

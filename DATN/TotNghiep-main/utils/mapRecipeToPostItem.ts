@@ -1,5 +1,6 @@
 import { FoodDetailData, Comment, ReplyComment, Reply, CollectionResponse, Recipe, CollectionItem, RecipeApiResponse, RecipeItem, RecipeApiItem, LikedRecipesResponse, FormattedRecipeItem, LikedRecipe } from '@/types/type_index';
 import { images, videos } from '@constants/index';
+import { getSafeImageUrl, getSafeAvatarUrl } from '@/lib/imageUtils';
 import { formatDistanceToNow } from 'date-fns';
 import { vi } from 'date-fns/locale';
 
@@ -16,7 +17,7 @@ export function mapRecipeToPostItem(item: any) {
         addSuffix: true,
         locale: vi,
       }),
-      avatar: item.user?.avatarUrl
+      avatar: getSafeAvatarUrl(item.user?.avatarUrl)
     },
     content: {
       title: item.title,
@@ -24,7 +25,7 @@ export function mapRecipeToPostItem(item: any) {
       hashtags: item.tags?.map((t: any) => t.name) || [],
       likes: item.likeCount,
       comments: item.commentCount,
-      image: item.imageUrl,
+      image: getSafeImageUrl(item.imageUrl),
       likedByCurrentUser : item.likedByCurrentUser,
       savedByCurrentUser : item.savedByCurrentUser
     },
@@ -38,7 +39,7 @@ export function mapApiToFoodDetail(apiData: any): FoodDetailData {
     author: {
       id:apiData.user?.id || 0,
       name: apiData.user?.username || 'Unknown',
-      avatar: apiData.user?.avatarUrl || images.sampleAvatar,
+      avatar: getSafeAvatarUrl(apiData.user?.avatarUrl),
       kitchenFriends: 28, // giả lập nếu API không có
       hashtag: apiData.tags?.[0]?.name || '',
       hashtagCount: apiData.tags?.length || 0,
@@ -48,7 +49,7 @@ export function mapApiToFoodDetail(apiData: any): FoodDetailData {
     comments: 1, // giả lập nếu API không có
     likes: apiData.likeCount,
     saves: apiData.saveCount || 0,
-    image: apiData.imageUrl || images.sampleFood1,
+    image: getSafeImageUrl(apiData.imageUrl),
     video: apiData.videoUrl || videos.videoTutorial,
     likedByCurrentUser: apiData.likedByCurrentUser,
     ingredients : apiData.ingredients
@@ -59,7 +60,7 @@ export function mapApiToComments(apiData: any): Comment[] {
   return apiData.content.map((c: any) => ({
     id: c.id,
     user: c.user.username,
-    avatar: c.user.avatarUrl,
+    avatar: getSafeAvatarUrl(c.user.avatarUrl),
     content: c.content,
     replyCount: c.replyCount,
     likes: c.likeCount,
@@ -75,7 +76,7 @@ export function mapApiToReplyComment(apiData: any): ReplyComment {
   const comments: Reply[] = apiComments.map((c: any) => ({
     id: c.id,
     user: typeof c.user === "string" ? c.user : c.user.username,
-    avatar: c.user.avatarUrl || images.sampleAvatar,
+    avatar: getSafeAvatarUrl(c.user?.avatarUrl),
     content: c.content || c.text || "",
     likes: c.likes || 0,
     date: c.date || c.createdAt || "",
@@ -121,7 +122,7 @@ export function convertApiRecipesToRecipeItems(apiResponse: RecipeApiResponse): 
       saves: recipe.saveCount,
       time: timeString,
       description:recipe.description,
-      images: [recipe.imageUrl] // Chuyển imageUrl thành mảng images
+      images: [getSafeImageUrl(recipe.imageUrl)] // Chuyển imageUrl thành mảng images
     };
   });
 }
@@ -136,7 +137,7 @@ export function formatLikedRecipes(response: LikedRecipesResponse): FormattedRec
       title: recipe.title,
       views: recipe.views,
       time: timeString,
-      images: [recipe.imageUrl],
+      images: [getSafeImageUrl(recipe.imageUrl)],
       likes: recipe.likeCount,
       comments: recipe.commentCount,
       saves: recipe.saveCount

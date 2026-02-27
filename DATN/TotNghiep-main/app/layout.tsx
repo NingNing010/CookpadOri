@@ -6,6 +6,9 @@ import Footer from '@/components/Common/Footer';
 export const metadata: Metadata = {
   title: 'CookPad Web',
   description: 'Migrated to Next.js + TailwindCSS',
+  icons: {
+    icon: '/favicon.png',
+  },
 };
 
 export default function RootLayout({

@@ -131,7 +131,7 @@ const TableSelection = () => {
           >
             <div className="relative w-full h-48 md:h-56">
               <Image unoptimized
-                src={item.images?.[0] || '/fallback-image.png'}
+                src={item.images?.[0] && typeof item.images[0] === 'string' && item.images[0].trim() !== '' && !item.images[0].includes('bit.ly') ? item.images[0] : '/assets/images/sample-food3.jpg'}
                 alt={item.title}
                 fill
                 className="object-cover transition-transform duration-500 group-hover:scale-105"

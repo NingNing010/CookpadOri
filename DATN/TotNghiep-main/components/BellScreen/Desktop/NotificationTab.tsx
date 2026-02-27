@@ -23,7 +23,7 @@ const NotificationItem = ({ item }: { item: NotificationItemProps }) => {
     <button className="flex flex-row items-start justify-start pt-2 pb-2 w-full">
       <div className="w-10 h-10">
         <Image unoptimized
-          src={item.avatarUrl}
+          src={item.avatarUrl && item.avatarUrl.trim() !== '' && !item.avatarUrl.includes('bit.ly') ? item.avatarUrl : '/assets/images/sample-avatar.png'}
           alt={item.userName}
           className="w-10 h-10 rounded-full border-2 border-[#E36137] object-cover"
         />

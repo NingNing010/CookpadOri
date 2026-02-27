@@ -151,7 +151,7 @@ const ProfileScreen = () => {
           ">
             <Image
               unoptimized
-              src={userData?.avatarUrl || images.sampleAvatar}
+              src={userData?.avatarUrl && typeof userData.avatarUrl === 'string' && userData.avatarUrl.trim() !== '' && !userData.avatarUrl.includes('bit.ly') ? userData.avatarUrl : images.sampleAvatar}
               alt="avatar"
               fill
               className="object-cover"
@@ -331,7 +331,7 @@ const ProfileScreen = () => {
                   <div className="relative aspect-square overflow-hidden">
                     <Image
                       unoptimized
-                      src={dish.imageUrl}
+                      src={dish.imageUrl && dish.imageUrl.trim() !== '' && !dish.imageUrl.includes('bit.ly') ? dish.imageUrl : '/assets/images/sample-food3.jpg'}
                       alt={dish.name}
                       fill
                       className="

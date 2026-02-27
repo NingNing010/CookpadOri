@@ -3,6 +3,10 @@ import Link from 'next/link';
 import { useState, useRef, useEffect } from 'react';
 import { PostItemProps } from '@/types/type_index';
 import { useAuthStore } from '@/store/useAuthStore';
+import { images } from '@/constants';
+
+const DEFAULT_AVATAR = '/assets/images/sample-avatar.png';
+const DEFAULT_FOOD_IMAGE = '/assets/images/sample-food3.jpg';
 
 const PostItem = ({ item }: PostItemProps) => {
   const [liked, setLiked] = useState(item.content.likedByCurrentUser ?? false);
@@ -133,7 +137,7 @@ const PostItem = ({ item }: PostItemProps) => {
       <div className="flex justify-between items-center p-3 border-b border-gray-100">
         <div className="flex items-center gap-2">
           <Link href={`/profile?id=${item.user.id}`}>
-            <Image unoptimized src={item.user.avatar} alt={item.user.name} width={40} height={40} className="rounded-full object-cover" />
+            <Image unoptimized src={item.user.avatar && typeof item.user.avatar === 'string' && item.user.avatar.trim() !== '' && !item.user.avatar.includes('bit.ly') ? item.user.avatar : DEFAULT_AVATAR} alt={item.user.name} width={40} height={40} className="rounded-full object-cover" />
           </Link>
           <div className="flex flex-col">
             <span className="font-semibold text-black text-sm">{item.user.name}</span>
@@ -162,7 +166,7 @@ const PostItem = ({ item }: PostItemProps) => {
 
       {/* Image */}
       <Link href={`/food-detail?id=${item.id}`} className="relative w-full h-52">
-        <Image unoptimized src={item.content.image} alt={item.content.title} fill className="object-cover" />
+        <Image unoptimized src={item.content.image && typeof item.content.image === 'string' && item.content.image.trim() !== '' && !item.content.image.includes('bit.ly') ? item.content.image : DEFAULT_FOOD_IMAGE} alt={item.content.title} fill className="object-cover" />
       </Link>
 
       {/* Content */}

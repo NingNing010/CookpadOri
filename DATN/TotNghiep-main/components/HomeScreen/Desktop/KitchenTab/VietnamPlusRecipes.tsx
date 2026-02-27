@@ -67,7 +67,7 @@ const RSSAmThucGrid: React.FC = () => {
             rel="noopener noreferrer"
             className="block border rounded-lg shadow hover:shadow-lg transition-all bg-white overflow-hidden"
           >
-            {art.image && (
+            {art.image && typeof art.image === 'string' && art.image.trim() !== '' && !art.image.includes('bit.ly') && (
               <div className="relative w-full h-48">
                 <Image unoptimized
                   src={art.image}

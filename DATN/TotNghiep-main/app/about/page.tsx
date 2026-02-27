@@ -45,7 +45,7 @@ const AboutPage = () => {
                 {/* ===== HERO ===== */}
                 <section className="relative h-[60vh] flex items-center justify-center">
                     <Image
-                        src="https://picsum.photos/1600/900?food=hero"
+                        src="/assets/images/sample-food3.jpg"
                         alt="About hero"
                         fill
                         priority
@@ -92,7 +92,7 @@ const AboutPage = () => {
                                     <div className="w-full lg:w-1/2">
                                         <div className="relative w-full h-[320px] rounded-2xl overflow-hidden shadow-lg">
                                             <Image
-                                                src={item.imageUrl}
+                                                src={item.imageUrl && item.imageUrl.trim() !== '' && !item.imageUrl.includes('bit.ly') ? item.imageUrl : '/assets/images/sample-food3.jpg'}
                                                 alt={item.title}
                                                 fill
                                                 className="object-cover"

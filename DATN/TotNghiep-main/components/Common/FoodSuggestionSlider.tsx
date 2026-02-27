@@ -41,7 +41,7 @@ const FoodSuggestionSlider = ({ data }: Props) => {
                                 <div className="relative w-[88px] h-[88px] rounded-full overflow-hidden bg-gray-100 border
                                                 transition-all duration-300 group-hover:scale-110 group-hover:shadow-md">
                                     <Image
-                                        src={item.image}
+                                        src={item.image && typeof item.image === 'string' && item.image.trim() !== '' && !item.image.includes('bit.ly') ? item.image : '/assets/images/sample-food3.jpg'}
                                         alt={item.name}
                                         fill
                                         sizes="88px"

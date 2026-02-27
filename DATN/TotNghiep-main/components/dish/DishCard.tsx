@@ -6,7 +6,7 @@ import { addToCart } from '../../services/cart.service';
 const DishCard = ({ dish }: any) => (
   <div className="bg-white rounded-xl shadow hover:shadow-lg">
     <Image unoptimized
-      src={dish.imageUrl}
+      src={dish.imageUrl && dish.imageUrl.trim() !== '' && !dish.imageUrl.includes('bit.ly') ? dish.imageUrl : '/assets/images/sample-food3.jpg'}
       alt={dish.name}
       width={400}
       height={300}

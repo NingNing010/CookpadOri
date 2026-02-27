@@ -126,7 +126,7 @@ const EditProfileScreen = ({
         {/* Avatar Section */}
         <div className="relative h-[100px] w-[100px]">
           <Image unoptimized
-            src={previewAvatar}
+            src={previewAvatar && previewAvatar.trim() !== '' && !previewAvatar.includes('bit.ly') ? previewAvatar : '/assets/images/sample-avatar.png'}
             alt="avatar"
             width={100}
             height={100}

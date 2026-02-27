@@ -122,7 +122,7 @@ const CookingStepMasterTab = ({
                         className="relative aspect-square rounded-xl overflow-hidden"
                       >
                         <Image unoptimized
-                          src={imgSrc}
+                          src={imgSrc && imgSrc.trim() !== '' && !imgSrc.includes('bit.ly') ? imgSrc : '/assets/images/sample-food3.jpg'}
                           alt={`step-${index}-${imgIndex}`}
                           fill
                           className="object-cover"

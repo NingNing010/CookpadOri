@@ -128,7 +128,7 @@ const CalorieSection: React.FC = () => {
             {selectedFood && (
               <div className="mt-8 flex flex-col md:flex-row gap-8 items-center justify-center">
                 <div className="bg-white rounded-2xl shadow-2xl p-6 md:p-8 w-full md:w-96 flex flex-col items-center gap-4 hover:scale-105 transition-transform">
-                  {selectedFood.image_url && (
+                  {selectedFood.image_url && typeof selectedFood.image_url === 'string' && selectedFood.image_url.trim() !== '' && !selectedFood.image_url.includes('bit.ly') && (
                     <img
                       src={selectedFood.image_url}
                       alt={selectedFood.name}

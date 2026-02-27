@@ -167,7 +167,7 @@ export default function RecipeSearchByIngredient() {
             {/* IMAGE */}
             <div className="relative">
               <img
-                src={r.imageUrl}
+                src={r.imageUrl && r.imageUrl.trim() !== '' && !r.imageUrl.includes('bit.ly') ? r.imageUrl : '/assets/images/sample-food3.jpg'}
                 alt={r.title}
                 className="h-52 w-full object-cover group-hover:scale-105 transition-transform duration-500"
               />

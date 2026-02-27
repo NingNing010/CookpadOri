@@ -68,7 +68,7 @@ export default function EditDishPage() {
         <div className="bg-white shadow-lg rounded-2xl p-6 flex flex-col md:flex-row gap-6">
           {/* Image preview */}
           <div className="flex-shrink-0 w-full md:w-1/3">
-            {dish?.imageUrl ? (
+            {dish?.imageUrl && typeof dish.imageUrl === 'string' && dish.imageUrl.trim() !== '' && !dish.imageUrl.includes('bit.ly') ? (
               <img
                 src={dish.imageUrl}
                 alt={dish.name}

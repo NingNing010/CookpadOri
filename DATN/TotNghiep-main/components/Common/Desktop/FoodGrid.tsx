@@ -12,7 +12,7 @@ interface FoodGridProps {
   featuredRecipesData?: FormattedRecipeItem[];
 }
 
-const fallbackImage = '/fallback-image.png';
+const fallbackImage = '/assets/images/sample-food3.jpg';
 const LIMIT = 6;
 
 const FoodGrid = ({ featuredRecipesData }: FoodGridProps) => {
@@ -53,7 +53,7 @@ const FoodGrid = ({ featuredRecipesData }: FoodGridProps) => {
       <div className="relative w-full h-48 md:h-56">
         <Image
           unoptimized
-          src={item.images?.[0] || fallbackImage}
+          src={item.images?.[0] && typeof item.images[0] === 'string' && item.images[0].trim() !== '' && !item.images[0].includes('bit.ly') ? item.images[0] : fallbackImage}
           alt={item.title}
           fill
           className="object-cover transition-transform duration-500 group-hover:scale-105"

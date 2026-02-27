@@ -145,7 +145,7 @@ const DishMarketplace = ({ userId, recipeId }: Props) => {
             <div className="relative w-full h-28">
               <Image
                 unoptimized
-                src={dish.imageUrl}
+                src={dish.imageUrl && dish.imageUrl.trim() !== '' && !dish.imageUrl.includes('bit.ly') ? dish.imageUrl : '/assets/images/sample-food3.jpg'}
                 alt={dish.name}
                 fill
                 className="object-cover"

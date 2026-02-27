@@ -78,7 +78,7 @@ const PostItem = ({ item }: PostItemProps) => {
             <Link href={`/food-detail?id=${item.id}`} className="flex flex-col w-full cursor-pointer">
                 <div className="relative w-full h-48 sm:h-56">
                     <Image unoptimized
-                        src={item.content.image}
+                        src={item.content.image && typeof item.content.image === 'string' && item.content.image.trim() !== '' && !item.content.image.includes('bit.ly') ? item.content.image : '/assets/images/sample-food3.jpg'}
                         alt={item.content.title}
                         fill
                         className="object-cover"

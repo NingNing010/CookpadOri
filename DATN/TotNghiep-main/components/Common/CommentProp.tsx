@@ -87,7 +87,7 @@ const CommentItem: React.FC<CommentItemProps> = ({
         {comment.avatar && (
           <Image
             unoptimized
-            src={comment.avatar}
+            src={comment.avatar.trim() !== '' && !comment.avatar.includes('bit.ly') ? comment.avatar : '/assets/images/sample-avatar.png'}
             alt={comment.user}
             width={32}
             height={32}
@@ -142,7 +142,7 @@ const CommentItem: React.FC<CommentItemProps> = ({
                     >
                       <Image
                         unoptimized
-                        src={reply.avatar}
+                        src={reply.avatar && reply.avatar.trim() !== '' && !reply.avatar.includes('bit.ly') ? reply.avatar : '/assets/images/sample-avatar.png'}
                         alt={reply.user}
                         width={24}
                         height={24}

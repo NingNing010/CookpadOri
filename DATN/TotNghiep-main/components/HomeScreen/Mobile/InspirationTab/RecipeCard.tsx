@@ -22,7 +22,7 @@ const RecipeCard = ({
         <div className="w-[120px] bg-white rounded-lg flex flex-col items-start border border-[#E5E7EB]">
             <div className="w-full h-[110px] relative rounded-t-lg overflow-hidden">
                 <Image unoptimized
-                    src={image}
+                    src={image && typeof image === 'string' && image.trim() !== '' && !image.includes('bit.ly') ? image : '/assets/images/sample-food3.jpg'}
                     alt={name}
                     fill
                     className="object-cover"

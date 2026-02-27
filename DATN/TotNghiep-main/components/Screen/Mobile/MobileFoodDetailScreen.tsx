@@ -85,7 +85,7 @@ const MobileFoodDetailScreen = () => {
                 {/* Hero Image */}
                 <div className="relative w-full h-[375px]">
                     <Image unoptimized
-                        src={postsDataDetail.image}
+                        src={postsDataDetail.image && typeof postsDataDetail.image === 'string' && postsDataDetail.image.trim() !== '' && !postsDataDetail.image.includes('bit.ly') ? postsDataDetail.image : '/assets/images/sample-food3.jpg'}
                         alt={postsDataDetail.title}
                         fill
                         className="object-cover"
@@ -134,7 +134,7 @@ const MobileFoodDetailScreen = () => {
                             <div className="flex flex-row items-center gap-2">
                                 <div className="relative w-10 h-10">
                                     <Image unoptimized
-                                        src={postsDataDetail.author.avatar}
+                                        src={postsDataDetail.author?.avatar && typeof postsDataDetail.author.avatar === 'string' && postsDataDetail.author.avatar.trim() !== '' && !postsDataDetail.author.avatar.includes('bit.ly') ? postsDataDetail.author.avatar : '/assets/images/sample-avatar.png'}
                                         alt={postsDataDetail.author.name}
                                         fill
                                         className="object-cover rounded-full border border-[#E36137]"

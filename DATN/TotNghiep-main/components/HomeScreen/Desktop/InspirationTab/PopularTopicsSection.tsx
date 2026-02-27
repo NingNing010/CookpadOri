@@ -22,6 +22,18 @@ const PopularTopicsSection = () => {
     // API call
     const router = useRouter();
     const token = useAuthStore.getState().token;
+    
+    const DEFAULT_IMAGE = '/assets/images/sample-food3.jpg';
+    
+    // Helper to validate image URL
+    const getValidImageUrl = (url?: string): string => {
+        if (!url || url.trim() === '') return DEFAULT_IMAGE;
+        if (url.includes('bit.ly')) return DEFAULT_IMAGE;
+        const trimmed = url.trim();
+        if (trimmed.startsWith('/')) return trimmed;
+        try { new URL(trimmed); return trimmed; } catch { return DEFAULT_IMAGE; }
+    };
+    
     const fetchCategories = async (): Promise<Category[]> => {
         const res = await fetch(
             `${process.env.NEXT_PUBLIC_API_HOST}/api/categories?page=0&size=10`,
@@ -56,7 +68,10 @@ const PopularTopicsSection = () => {
             </p>
 
             <div className="grid grid-cols-6 gap-5">
-                {categories?.map((item) => (
+                {categories?.map((item) => {
+                    const imageSource = getValidImageUrl(item.imageUrl);
+                    
+                    return (
                     <div
                         key={item.id}
                         onClick={() => router.push(`/recipes?cateId=${item.id}&name=${item.name}`)}
@@ -65,7 +80,7 @@ const PopularTopicsSection = () => {
                         {/* Image */}
                         <Image
                             unoptimized
-                            src={item.imageUrl || images.sampleFood1}
+                            src={imageSource}
                             alt={item.name}
                             fill
                             className="object-cover group-hover:scale-110 transition-transform duration-500"
@@ -81,7 +96,8 @@ const PopularTopicsSection = () => {
                             </p>
                         </div>
                     </div>
-                ))}
+                    );
+                })}
             </div>
         </div>
     );

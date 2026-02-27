@@ -22,6 +22,16 @@ const PopularTopicsSection = () => {
     const token = useAuthStore.getState().token;
     const router = useRouter();
 
+    const DEFAULT_IMAGE = '/assets/images/sample-food3.jpg';
+    
+    const getValidImageUrl = (url?: string): string => {
+        if (!url || url.trim() === '') return DEFAULT_IMAGE;
+        if (url.includes('bit.ly')) return DEFAULT_IMAGE;
+        const trimmed = url.trim();
+        if (trimmed.startsWith('/')) return trimmed;
+        try { new URL(trimmed); return trimmed; } catch { return DEFAULT_IMAGE; }
+    };
+
     const fetchCategories = async (): Promise<Category[]> => {
         const res = await fetch(`${process.env.NEXT_PUBLIC_API_HOST}/api/categories?page=0&size=10`, {
             method: "GET",
@@ -58,7 +68,7 @@ const PopularTopicsSection = () => {
                     >
                         <Image
                             unoptimized
-                            src={item.imageUrl || images.sampleFood1}
+                            src={getValidImageUrl(item.imageUrl)}
                             alt={item.name}
                             fill
                             className="rounded-lg object-cover"

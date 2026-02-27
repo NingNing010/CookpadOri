@@ -123,7 +123,7 @@ const CookingStepMasterTab: React.FC<CookingStepMasterTabProps> = ({
                       >
                         <Image
                           unoptimized
-                          src={img}
+                          src={img && img.trim() !== '' && !img.includes('bit.ly') ? img : '/assets/images/sample-food3.jpg'}
                           alt={`step-${index}-${idx}`}
                           fill
                           className="object-cover"

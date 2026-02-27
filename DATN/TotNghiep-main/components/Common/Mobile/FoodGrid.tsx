@@ -57,7 +57,7 @@ const MobileFoodGrid = ({ featuredRecipesData }: FoodGridProps) => {
                         }}
                     >
                         <Image unoptimized
-                            src={item.images[0]}
+                            src={item.images?.[0] && item.images[0].trim() !== '' && !item.images[0].includes('bit.ly') ? item.images[0] : '/assets/images/sample-food3.jpg'}
                             alt={item.title}
                             width={100}
                             height={100}

@@ -13,7 +13,7 @@ const RecipeListItem = ({ item }: RecipeListItemProps) => (
     className="flex flex-row rounded-lg bg-white cursor-pointer shadow-md h-36 sm:h-36 md:h-36 lg:h-36"
   >
     <Image unoptimized
-      src={item.images[0]}
+      src={item.images?.[0] && item.images[0].trim() !== '' && !item.images[0].includes('bit.ly') ? item.images[0] : '/assets/images/sample-food3.jpg'}
       alt={item.title}
       width={100}
       height={100}

@@ -212,7 +212,7 @@ const FoodDetailScreen = () => {
                     {/* Background blur */}
                     <Image
                         unoptimized
-                        src={postsDataDetail.image}
+                        src={postsDataDetail.image && typeof postsDataDetail.image === 'string' && postsDataDetail.image.trim() !== '' && !postsDataDetail.image.includes('bit.ly') ? postsDataDetail.image : '/assets/images/sample-food3.jpg'}
                         alt=""
                         fill
                         priority
@@ -223,7 +223,7 @@ const FoodDetailScreen = () => {
                     <div className="relative z-10 flex h-full items-center justify-center">
                         <Image
                             unoptimized
-                            src={postsDataDetail.image}
+                            src={postsDataDetail.image && typeof postsDataDetail.image === 'string' && postsDataDetail.image.trim() !== '' && !postsDataDetail.image.includes('bit.ly') ? postsDataDetail.image : '/assets/images/sample-food3.jpg'}
                             alt={postsDataDetail.title}
                             width={420}
                             height={420}
@@ -257,7 +257,7 @@ const FoodDetailScreen = () => {
                         <div className="flex items-center gap-4">
                             <Image
                                 unoptimized
-                                src={postsDataDetail.author.avatar}
+                                src={postsDataDetail.author?.avatar && typeof postsDataDetail.author.avatar === 'string' && postsDataDetail.author.avatar.trim() !== '' && !postsDataDetail.author.avatar.includes('bit.ly') ? postsDataDetail.author.avatar : '/assets/images/sample-avatar.png'}
                                 alt={postsDataDetail.author.name}
                                 width={56}
                                 height={56}

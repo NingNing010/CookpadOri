@@ -492,7 +492,7 @@ export async function getSuggestedFriends() {
     name: u.username,
     commonFriends: getRandomChefTags(),
     hashtag: hashtags[Math.floor(Math.random() * hashtags.length)],
-    avatarUrl: u.avatarUrl ?? null,
+    avatarUrl: u.avatarUrl || null,
   }));
 
   return formatted;

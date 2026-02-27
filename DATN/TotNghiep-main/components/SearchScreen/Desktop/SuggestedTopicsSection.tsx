@@ -30,7 +30,7 @@ const SuggestedTopicsSection = () => {
             className="h-20 sm:h-24 md:h-28 lg:h-32 cursor-pointer rounded-lg overflow-hidden relative flex items-center justify-center"
           >
             <Image unoptimized
-              src={item.image}
+              src={item.image && item.image.trim() !== '' && !item.image.includes('bit.ly') ? item.image : '/assets/images/sample-food3.jpg'}
               alt={item.name}
               fill
               className="object-cover rounded-lg"

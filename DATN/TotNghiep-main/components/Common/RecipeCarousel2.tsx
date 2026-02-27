@@ -39,7 +39,7 @@ const RecipeCarousel2 = ({ user_id = 0 }: RecipeCarousel2Props) => {
         return {
             id: item.id,
             name: item.title || item.content?.title || "No title",
-            image: item.images[0],
+            image: item.images?.[0] || "",
             width: isObj ? img.width : undefined,
             height: isObj ? img.height : undefined,
             blurDataURL: isObj ? img.blurDataURL : undefined,

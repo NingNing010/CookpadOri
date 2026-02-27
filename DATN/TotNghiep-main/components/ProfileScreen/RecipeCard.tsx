@@ -22,7 +22,7 @@ const RecipeCard = ({ item }: RecipeCardProps) => {
     >
       <div className="flex flex-row">
         <Image unoptimized
-          src={item.image}
+          src={item.image && typeof item.image === 'string' && item.image.trim() !== '' && !item.image.includes('bit.ly') ? item.image : '/assets/images/sample-food3.jpg'}
           alt={item.title}
           width={112}
           height={112}

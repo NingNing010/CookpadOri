@@ -14,6 +14,18 @@ import HeroSection from '../../HomeScreen/Desktop/HeroSection';
 import FoodChatbot from '@components/HomeScreen/Desktop/FoodChatbot/FoodChatbot';
 
 const API_BASE = process.env.NEXT_PUBLIC_API_DATA;
+const DEFAULT_IMAGE = '/assets/images/sample-food3.jpg';
+
+// Helper to validate image URL
+const getValidImageUrl = (url?: string): string => {
+  if (!url || url.trim() === '') return DEFAULT_IMAGE;
+  if (url.includes('bit.ly')) return DEFAULT_IMAGE;
+  const trimmed = url.trim();
+  // Relative paths are always safe
+  if (trimmed.startsWith('/')) return trimmed;
+  // Validate absolute URLs with new URL()
+  try { new URL(trimmed); return trimmed; } catch { return DEFAULT_IMAGE; }
+};
 
 /* ===== type banner ===== */
 interface Banner {
@@ -65,10 +77,11 @@ const HomeScreen = () => {
                     <div className="absolute inset-0 bg-black/40 z-10"></div>
 
                     <Image
-                      src={item.imageUrl}
+                      src={getValidImageUrl(item.imageUrl)}
                       alt={item.title}
                       fill
                       priority
+                      unoptimized
                       className="object-cover"
                     />
 
