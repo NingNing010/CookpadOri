@@ -329,6 +329,11 @@ export async function getRecipesBySearch(
   try {
     const token = useAuthStore.getState().token;
 
+    const headers: Record<string, string> = {};
+    if (token) {
+      headers.Authorization = `Bearer ${token}`;
+    }
+
     const response = await axios.get<LikedRecipesResponse>(
       `${process.env.NEXT_PUBLIC_API_HOST}/user/test/recipes/search`,
       {
@@ -337,9 +342,7 @@ export async function getRecipesBySearch(
           size,
           keyword,
         },
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        headers,
       }
     );
     console.log(response.data)

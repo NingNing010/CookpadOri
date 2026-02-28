@@ -1,26 +1,9 @@
 package com.example.cooking.controller;
 
-import com.example.cooking.common.ApiResponse;
-import com.example.cooking.common.PageDTO;
-import com.example.cooking.dto.RecipeIngredientSearchResponse;
-import com.example.cooking.dto.projection.RecipeIngredientSearchProjection;
-import com.example.cooking.dto.response.RecipeSummaryDTO;
-import com.example.cooking.model.Recipe;
-import com.example.cooking.repository.RecipeRepository;
-import com.example.cooking.security.MyUserDetails;
-// import com.example.cooking.service.MeiliRecipeService;
-import com.example.cooking.service.RecipeService;
-import com.example.cooking.service.SearchService;
-import com.meilisearch.sdk.model.SearchResult;
+import java.util.List;
 
-import lombok.RequiredArgsConstructor;
-
-import org.antlr.runtime.tree.TreeFilter.fptr;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,8 +11,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-import java.util.Map;
+import com.example.cooking.common.ApiResponse;
+import com.example.cooking.common.PageDTO;
+import com.example.cooking.dto.RecipeIngredientSearchResponse;
+import com.example.cooking.dto.response.RecipeSummaryDTO;
+import com.example.cooking.security.MyUserDetails;
+import com.example.cooking.service.SearchService;
+
+import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/user/test/recipes")
@@ -46,9 +35,14 @@ public class SearchController {
             @RequestParam ("keyword") String keyword,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "20") int size) {
+        try {
                 Pageable pageable = PageRequest.of(page, size);
-        PageDTO<RecipeSummaryDTO> recipes = searchService.searchByKeyWord(keyword, pageable, currentUser);
-        return ApiResponse.ok(recipes);
+            PageDTO<RecipeSummaryDTO> recipes = searchService.searchByKeyWord(keyword, pageable, currentUser);
+            return ApiResponse.ok(recipes);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
     }
 
     @GetMapping("/search-by-ingredients")

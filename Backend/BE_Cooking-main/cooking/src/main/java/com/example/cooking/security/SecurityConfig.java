@@ -47,6 +47,7 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource())) // Enable CORS with custom configuration
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll() // Allow unauthenticated access to /auth endpoints
+                        .requestMatchers("/error").permitAll()
                         .requestMatchers("/api/upload/**").permitAll()
                         .requestMatchers("/api/chatbot/**").permitAll()
                         .requestMatchers("/api/test/**").permitAll()
@@ -56,6 +57,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/public/**").permitAll() // Allow unauthenticated access to GET /recipes
                         .requestMatchers("/v3/api-docs/**","/swagger-ui/**").permitAll()
                         .requestMatchers("/static_resource/public/upload/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/user/test/**").permitAll()
                         .requestMatchers("/api/user/**").hasRole("USER")
                         .requestMatchers("/api/recipes/**").hasRole("USER")
                         .requestMatchers("/api/categories/**").hasRole("USER")

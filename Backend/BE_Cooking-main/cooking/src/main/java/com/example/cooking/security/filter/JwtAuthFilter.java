@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
+
 import com.example.cooking.security.JwtService;
 
 import jakarta.servlet.FilterChain;
@@ -34,7 +35,17 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         String username = null;
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             token = authHeader.substring(7); // Remove "Bearer " prefix
-            username = jwtService.extractSubject(token);
+            // Skip if token is empty or literal "null"
+            if (token != null && !token.isEmpty() && !"null".equals(token) && !"undefined".equals(token)) {
+                try {
+                    username = jwtService.extractSubject(token);
+                } catch (Exception e) {
+                    // Token không hợp lệ hoặc hết hạn -> bỏ qua, để Spring Security xử lý authorization
+                    token = null;
+                }
+            } else {
+                token = null;
+            }
         }
         //TODO: test ban sau khi cap token hop le xem co dang nhap duoc vao he thong khong
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null){// context theo thread cua nguoi gui request hien tai 

@@ -1,5 +1,12 @@
 package com.example.cooking.service;
 
+import java.util.List;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+
 import com.example.cooking.common.PageDTO;
 import com.example.cooking.common.enums.Scope;
 import com.example.cooking.common.enums.Status;
@@ -14,14 +21,6 @@ import com.example.cooking.repository.RecipeSearchIndexRepository;
 import com.example.cooking.security.MyUserDetails;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -138,18 +137,35 @@ public PageDTO<RecipeSummaryDTO> searchByKeyWord(String keyWord, Pageable pageab
     // 1. Giữ nguyên từ khóa tự nhiên (ví dụ: "gà tần")
     String cleanKeyword = keyWord.trim();
 
-    // 2. Gọi repository với chế độ Natural Language + LIKE fallback
-    Page<Recipe> recipePage = recipeSearchIndexRepository.searchNaturalLanguage(cleanKeyword, pageable);
+    try {
+        // 2. Gọi repository với chế độ Natural Language + LIKE fallback
+        Page<Recipe> recipePage = recipeSearchIndexRepository.searchNaturalLanguage(cleanKeyword, pageable);
 
-    if (recipePage.isEmpty()) {
-        return PageDTO.empty(pageable);
+        if (recipePage.isEmpty()) {
+            return PageDTO.empty(pageable);
+        }
+
+        // 3. Mapping và Enrich dữ liệu
+        List<RecipeSummaryDTO> recipeSummaryDTOs = recipeMapper.toSummaryDTOList(recipePage.getContent());
+        if (currentUser != null) {
+            recipeSummaryDTOs = recipeEnrichmentService.enrichAllForRecipeSummaryDTOs(
+                    recipeSummaryDTOs, currentUser.getId());
+        }
+
+        return new PageDTO<>(recipePage, recipeSummaryDTOs);
+    } catch (Exception e) {
+        // Fallback: nếu recipe_search_index chưa tồn tại hoặc lỗi query, dùng LIKE search đơn giản
+        System.err.println("Search error (falling back to simple search): " + e.getMessage());
+        Page<Recipe> recipePage = recipeRepository.findByTitleContainingIgnoreCase(cleanKeyword, pageable);
+        if (recipePage.isEmpty()) {
+            return PageDTO.empty(pageable);
+        }
+        List<RecipeSummaryDTO> recipeSummaryDTOs = recipeMapper.toSummaryDTOList(recipePage.getContent());
+        if (currentUser != null) {
+            recipeSummaryDTOs = recipeEnrichmentService.enrichAllForRecipeSummaryDTOs(
+                    recipeSummaryDTOs, currentUser.getId());
+        }
+        return new PageDTO<>(recipePage, recipeSummaryDTOs);
     }
-
-    // 3. Mapping và Enrich dữ liệu
-    List<RecipeSummaryDTO> recipeSummaryDTOs = recipeMapper.toSummaryDTOList(recipePage.getContent());
-    recipeSummaryDTOs = recipeEnrichmentService.enrichAllForRecipeSummaryDTOs(
-            recipeSummaryDTOs, currentUser.getId());
-
-    return new PageDTO<>(recipePage, recipeSummaryDTOs);
 }
 }
